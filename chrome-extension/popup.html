@@ -1,80 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8" />
     <title>AI Summary</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #f9f9f9;
-            padding: 15px;
+            font-family: sans-serif;
+            padding: 12px;
             width: 300px;
-            color: #333;
         }
 
         h3 {
             margin-top: 0;
-            font-size: 18px;
-            color: #222;
         }
 
-        label {
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        input[type="password"],
         textarea {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
             border-radius: 6px;
-            box-sizing: border-box;
+            padding: 6px;
+            resize: vertical;
         }
 
         button {
-            background-color: #4a90e2;
-            color: white;
+            width: 100%;
+            padding: 8px;
+            margin-top: 8px;
             border: none;
             border-radius: 6px;
-            padding: 8px 12px;
+            background-color: #4285f4;
+            color: white;
+            font-weight: bold;
             cursor: pointer;
-            font-size: 14px;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #3b78c4;
         }
 
         #summary {
-            margin-top: 15px;
-            padding: 10px;
-            background: #fff;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            white-space: pre-wrap;
+            margin-top: 10px;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        hr {
-            margin: 15px 0;
-            border: none;
-            border-top: 1px solid #e0e0e0;
+        #summary.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        #summary.error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid #ccc;
+            border-top-color: #4285f4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 
 <body>
     <h3>Selected Text Summary</h3>
-    <textarea id="inputText" rows="5" style="width:100%;"></textarea>
-    <button id="summarizeBtn" style="margin-top: 6px;">Summarize</button>
-    <div id="summary" style="margin-top: 10px;"></div>
+    <textarea id="inputText" rows="5" placeholder="Paste or right-click select..."></textarea>
+    <button id="summarizeBtn">Summarize</button>
+    <div id="summary"></div>
 
     <script src="popup.js"></script>
 </body>

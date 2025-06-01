@@ -21,7 +21,7 @@ r = redis.Redis(host="localhost", port=6379, decode_responses=True)
 VALID_TOKENS = {"demo123": "free-tier-user"}
 
 # 限流參數
-MAX_DAILY_REQUESTS = 10
+MAX_DAILY_REQUESTS = 20
 TTL_SECONDS = 86400
 
 # 資料模型
