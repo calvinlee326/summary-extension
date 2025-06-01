@@ -1,4 +1,4 @@
-// 建立右鍵選單
+// === create right click menu ===
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "summarize-selection",
@@ -7,13 +7,30 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-// 當使用者點選右鍵選單時
+// === handle right click ===
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "summarize-selection" && info.selectionText) {
-    // 將選取文字儲存到 local storage
     chrome.storage.local.set({ selectedText: info.selectionText }, () => {
-      // 嘗試開啟 popup（注意：Chrome 限制，有時無法從背景直接觸發）
-      chrome.action.openPopup?.();  // 非必要，讓 popup.js 可偵測
+      chrome.action.openPopup?.();  // try to open popup (not guaranteed to work)
+    });
+  }
+});
+
+// === handle shortcut (e.g. Ctrl+Shift+Y) ===
+chrome.commands.onCommand.addListener((command) => {
+  if (command === "summarize-selection") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.scripting.executeScript({
+        target: { tabId: tabs[0].id },
+        func: () => window.getSelection().toString()
+      }, (results) => {
+        const selectedText = results?.[0]?.result;
+        if (selectedText) {
+          chrome.storage.local.set({ selectedText }, () => {
+            chrome.action.openPopup?.();  // trigger popup to automatically load selected content
+          });
+        }
+      });
     });
   }
 });
