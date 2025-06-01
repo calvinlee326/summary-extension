@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>AI Summary</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f9f9f9;
+            padding: 15px;
+            width: 300px;
+            color: #333;
+        }
+
+        h3 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #222;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #3b78c4;
+        }
+
+        #summary {
+            margin-top: 15px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Selected Text Summary</h3>
+    <textarea id="inputText" rows="5" style="width:100%;"></textarea>
+    <button id="summarizeBtn" style="margin-top: 6px;">Summarize</button>
+    <div id="summary" style="margin-top: 10px;"></div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

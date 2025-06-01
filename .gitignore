@@ -1,0 +1,29 @@
+# 忽略 macOS 系統檔
+.DS_Store
+
+# 忽略 Python 虛擬環境（venv）
+backend-api/venv/
+backend-api/__pycache__/
+
+# 忽略 Python cache
+*.pyc
+*.pyo
+__pycache__/
+
+# 忽略 dotenv 機密設定
+backend-api/.env
+
+# 忽略 VS Code 編輯器設定
+.vscode/
+
+# 忽略 zip 或 build 檔案
+*.zip
+*.tar.gz
+dist/
+build/
+myenv/
+.env
+
+# 忽略 Chrome extension 安裝後的系統檔（可選）
+chrome-extension/.DS_Store
+chrome-extension/__pycache__/
