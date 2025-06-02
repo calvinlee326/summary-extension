@@ -195,3 +195,9 @@ POST /summarize
 ## 📜 License
 
 MIT License © 2025 Calvin Lee
+
+---
+
+## Privacy Policy
+
+This extension does not collect or store any personal user data. All text processing is done by sending selected text to a secure backend API for summarization. No information is retained after processing.
