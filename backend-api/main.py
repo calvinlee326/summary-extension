@@ -1,21 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 from pydantic import BaseModel
-import redis
-import os
-
-# ✅ 新版 openai SDK 寫法
 from openai import OpenAI
+from collections import defaultdict
+import time
+import os
 
 # 初始化
 load_dotenv()
 app = FastAPI()
-
-# 初始化 OpenAI client（新版 SDK）
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# Redis 預設本機（可改用雲端 Redis）
-r = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
 # 驗證白名單 token
 VALID_TOKENS = {"demo123": "free-tier-user"}
@@ -23,6 +17,9 @@ VALID_TOKENS = {"demo123": "free-tier-user"}
 # 限流參數
 MAX_DAILY_REQUESTS = 20
 TTL_SECONDS = 86400
+
+# In-memory request log（token -> [timestamp1, timestamp2, ...]）
+request_log = defaultdict(list)
 
 # 資料模型
 class TextRequest(BaseModel):
@@ -39,16 +36,15 @@ async def summarize(req: TextRequest):
         raise HTTPException(status_code=401, detail="Invalid token.")
 
     # 限流檢查
-    redis_key = f"token:{token}:count"
-    count = r.get(redis_key)
-    count = int(count) if count else 0
+    now = time.time()
+    timestamps = request_log[token]
+    # 移除過期記錄
+    request_log[token] = [ts for ts in timestamps if now - ts < TTL_SECONDS]
 
-    if count >= MAX_DAILY_REQUESTS:
+    if len(request_log[token]) >= MAX_DAILY_REQUESTS:
         raise HTTPException(status_code=429, detail="Daily quota exceeded.")
 
-    # 增加使用次數並設過期時間
-    r.incr(redis_key)
-    r.expire(redis_key, TTL_SECONDS)
+    request_log[token].append(now)
 
     # 呼叫 OpenAI GPT
     try:

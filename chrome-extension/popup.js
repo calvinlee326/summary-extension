@@ -36,7 +36,9 @@ document.getElementById("summarizeBtn").addEventListener("click", async () => {
 });
 
 async function summarizeWithBackend(text) {
-  const endpoint = "http://127.0.0.1:8000/summarize";
+  // const endpoint = "http://127.0.0.1:8000/summarize"; //testing use local backend
+  const endpoint = "https://summary-api.fly.dev/summarize";
+
   const token = "demo123";
 
   const res = await fetch(endpoint, {
